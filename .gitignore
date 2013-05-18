@@ -1,3 +1,6 @@
 # Updated 19.3.2012.
 /target
 /res
+.classpath
+.project
+bin/
