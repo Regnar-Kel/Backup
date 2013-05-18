@@ -645,8 +645,8 @@ public class FileUtils {
         return directory.listFiles();
     }
 
-    public static int getTotalFolderSize(File folder) {
-        int bytes = 0;
+    public static long getTotalFolderSize(File folder) {
+        long bytes = 0L;
         File[] filelist = folder.listFiles();
         for (int i = 0; i < filelist.length; i++) {
             if (filelist[i].isDirectory()) {

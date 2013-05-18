@@ -231,7 +231,7 @@ public class BackupTask implements Runnable {
         try {
 
             // Get total backup limit.
-            int backupLimit = settings.getBackupLimits();
+            long backupLimit = settings.getBackupLimits();
             if (backupLimit != 0) {
 
                 // List all the files inside this folder.
@@ -250,7 +250,7 @@ public class BackupTask implements Runnable {
                 if (settings.useMaxSizeBackup) {
 
                     // Get total folder size.
-                    int totalFolderSize = FileUtils.getTotalFolderSize(folderToClean);
+                    long totalFolderSize = FileUtils.getTotalFolderSize(folderToClean);
 
                     // If the amount of files exceeds the max backups to keep.
                     if (totalFolderSize > backupLimit) {

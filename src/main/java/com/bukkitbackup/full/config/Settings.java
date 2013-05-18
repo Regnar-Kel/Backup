@@ -118,19 +118,19 @@ public final class Settings {
         return settings.getString(property, defaultString);
     }
 
-    public int getBackupLimits() {
+    public long getBackupLimits() {
         String limitSetting = getStringProperty("maxbackups", "25").trim().toLowerCase();
 
         // If it is null or set to disable.
         if (limitSetting.equals("-1")) {
-            return 0;
+            return 0L;
         }
 
         // If it is just a number, return minutes.
         if (limitSetting.matches("^[0-9]+$")) {
             LogUtils.sendDebug("Max Backups: Amount (M:0011)");
 
-            return Integer.parseInt(limitSetting);
+            return Long.parseLong(limitSetting);
         } else if (limitSetting.matches("^[0-9]+[a-z]$")) {
             LogUtils.sendDebug("Max Backups: Size (M:0010)");
 
@@ -141,29 +141,27 @@ public final class Settings {
             Matcher letterTime = letterPattern.matcher(limitSetting);
             if (letterTime.matches() && amountTime.matches()) {
                 String letter = letterTime.group(1);
-                int bytes = Integer.parseInt(amountTime.group(1));
+                long bytes = Long.parseLong(amountTime.group(1));
 
                 if (letter.equals("k")) {
-                    return bytes;
-                } else if (letter.equals("k")) {
-                    return bytes * 1024;
+                    return bytes * 1024L;
                 } else if (letter.equals("m")) {
-                    return bytes * 1048576;
+                    return bytes * 1048576L;
                 } else if (letter.equals("g")) {
-                    return bytes * 1073741824;
+                    return bytes * 1073741824L;
                 } else {
                     LogUtils.sendLog(strings.getString("unknownsizeident"));
                     return bytes;
                 }
             } else {
                 LogUtils.sendLog(strings.getString("checksizelimit"));
-                return 0;
+                return 0L;
             }
         } else {
             LogUtils.sendDebug("Max Backups: Unknown (M:0012)");
 
             LogUtils.sendLog(strings.getString("checksizelimit"));
-            return 0;
+            return 0L;
         }
     }
 }
