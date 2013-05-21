@@ -240,12 +240,6 @@ public class BackupTask implements Runnable {
                 LogUtils.sendDebug("Files: (M:0018)");
                 LogUtils.sendDebug(filesList.toString());
 
-                // Check we listed the directory.
-                if (filesList == null) {
-                    LogUtils.sendLog(strings.getString("failedlistdir"));
-                    return;
-                }
-
                 // Using size to limit backups.
                 if (settings.useMaxSizeBackup) {
 
@@ -286,8 +280,13 @@ public class BackupTask implements Runnable {
                                 backupList.remove(maxModifiedIndex);
                             }
 
-                            FileUtils.deleteDirectory(backupList.get(0));
-                            deletedList.add(backupList.get(0));
+                            File itemToDelete = backupList.get(0);
+                            if (itemToDelete.isDirectory()){
+                                FileUtils.deleteDirectory(itemToDelete);
+                            } else {
+            					itemToDelete.delete();
+                            }
+                            deletedList.add(itemToDelete);
                         }
 
 
